@@ -8,7 +8,7 @@ from django_http_model.utils import RequestUtils
 
 class RequestUtilsTest(TestCase):
 
-    def test_should_fetch_correct_json_when_json_is_passed(self):
+    def test_should_fetch_correct_json_when_json_is_expected(self):
         company_dict = {
             "name": "Company 1",
             "id": 1,
@@ -22,3 +22,11 @@ class RequestUtilsTest(TestCase):
             m.get(url, text=json.dumps(company_dict))
             response = RequestUtils.fetch_from_url(url)
             self.assertDictEqual(company_dict, response)
+
+    def test_should_return_none_when_response_is_none(self):
+        url = "http://my.api.com/companies/1"
+
+        with requests_mock.mock() as m:
+            m.get(url, text="")
+            response = RequestUtils.fetch_from_url(url)
+            self.assertIsNone(response)

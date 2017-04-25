@@ -13,7 +13,7 @@ class ClassProperty(property):
         return classmethod(self.fget).__get__(None, owner)()
 
 
-class RequestUtils:
+class RequestUtils(object):
 
     @staticmethod
     def fetch_from_url(url, path_to_append=None):
@@ -21,6 +21,6 @@ class RequestUtils:
             url = urllib.parse.urljoin("{0}/".format(url), str(path_to_append))
         response = requests.get(url)
         result = None
-        if response.ok:
+        if response.ok and response.text is not None and response.text != "":
             result = json.loads(response.text)
         return result

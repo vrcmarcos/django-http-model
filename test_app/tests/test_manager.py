@@ -17,7 +17,6 @@ class HTTPModelManagerTest(TestCase):
             "birthday": "2017-04-19",
         }
 
-        # manager =
         instance = Company.objects._HTTPModelManager__create_instance(company_dict)
 
         self.assertIsInstance(instance, Company)

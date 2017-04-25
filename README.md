@@ -6,29 +6,64 @@ A Django Manager for HTTP data using the well-known Django ORM interface
 
 ## Installation
 
-```bash
-pip install django-http-model
-```
+This package is not in PyPI. We'll add as soon as possible
 
 ## Usage
 
-Make your model inherit from `HTTPModel`:
+Imagine that you have an endpoint `http://my.api.com/companies` that shows a list of `Companies`:
+
+```json
+[
+    {
+        "name": "Company 1",
+        "id": 1,
+        "nameOfFounder": "Marcos Cardoso",
+        "birthday": "1990-07-30",
+    },
+    {
+        "name": "Company 2",
+        "id": 2,
+        "nameOfFounder": "Samuel Medeiros Cardoso",
+        "birthday": "1955-04-26",
+    }
+]
+```
+
+The first step is create a model class that inherit from `HTTPModel`, and setup the desired attributes and override the `HTTPModel.HTTPMeta` class:
 
 ```python
 from django_http_model.models import HTTPModel, fields
 
-class MyModel(HTTPModel):
+class Company(HTTPModel):
 
-	string_property = fields.HTTPField(field_name="field")
+	name = fields.HTTPField()
+	id = fields.HTTPField()
+	founder = fields.HTTPField(field_name="nameOfFounder")
+	birthday = fields.HTTPDateField(date_fmt="%Y-%m-%d")
 
 	class HTTPMeta(HTTPModel.HTTPMeta):
-		url = "http://my.api.com/model_list_endpoint/"
+		url = "http://my.api.com/companies"
 ```
 
-Now you can call `MyModel.objects.all()` and get a list of `MyModel` instances
+Now you can call the manager methods from `Company` model: `Company.objects.all()`, for example.
+
+
+## Implemented methods
+
+- `all/0` (class method)
+- `get/1` (class method, params=`{pk: int}`)
+
+## To do
+
+- Relations between `HTTPModel`
+- Relations between `HTTPModel` and `django.db.models.Model`
+- More manager's methods:
+	- `save/0` (instance method)
+	- `delete/0` (instance method) and `delete/1` (class method, params=`{pks: list}`)
+	- `filter/1` (class method, params=`{pks: list}`) [?]
 
 ## Changelog
 
 #### dev:
-- **HTTPModel**, **HTTPField** and **HTTPManager** implemented
+- **HTTPModel**, **HTTPManager**, **HTTPField** and **HTTPDateField** implemented
 - **HTTPManager**: **all** and **get** method implemented

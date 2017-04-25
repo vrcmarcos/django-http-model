@@ -9,7 +9,7 @@ class HTTPModelManager:
     meta = None
     model = None
 
-    def __init__(self, model) -> None:
+    def __init__(self, model):
         super().__init__()
         self.model = model
         self.meta = model.HTTPMeta
