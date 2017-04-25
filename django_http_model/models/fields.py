@@ -1,13 +1,16 @@
-from abc import ABCMeta
+class HTTPField:
+    field_name = None
 
-
-class HTTPField(metaclass=ABCMeta):
-    field_name = ""
-
-    def __init__(self, field_name) -> None:
+    def __init__(self, field_name=None) -> None:
         super().__init__()
         self.field_name = field_name
 
 
-class HTTPStringField(HTTPField):
-    pass
+class HTTPDateField(HTTPField):
+    date_fmt = None
+
+    def __init__(self, field_name=None, date_fmt="%Y-%m-%d") -> None:
+        super().__init__(field_name)
+        self.date_fmt = date_fmt
+
+
