@@ -20,12 +20,8 @@ class HTTPModelManager:
         response = requests.get(self.meta.url)
         result = []
         if response.ok:
-            for item_dict in json.loads(response.text):
-                instance = self.model()
-                import ipdb; ipdb.set_trace()
-                for attribute, value in item_dict.items():
-                    if hasattr(instance, attribute):
-                        setattr(instance, attribute, value)
+            for instance_attributes_dict in json.loads(response.text):
+                instance = self.__create_instance(instance_attributes_dict)
                 result.append(instance)
         return result
 
@@ -33,8 +29,7 @@ class HTTPModelManager:
         instance = self.model()
         for attribute, value in self.model.__dict__.items():
             if isinstance(value, fields.HTTPField):
-                instance_attr = getattr(instance, attribute)
-                field_name = getattr(instance_attr, "field_name")
+                field_name = getattr(value, "field_name")
 
                 if field_name is None:
                     field_name = attribute
@@ -43,7 +38,7 @@ class HTTPModelManager:
                     instance_attribute_value = instance_attributes_dict[field_name]
 
                     if isinstance(value, fields.HTTPDateField):
-                        date_fmt = getattr(instance_attr, "date_fmt")
+                        date_fmt = getattr(value, "date_fmt")
                         instance_attribute_value = time.strptime(instance_attribute_value, date_fmt)
 
                     setattr(instance, attribute, instance_attribute_value)

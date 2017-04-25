@@ -6,11 +6,13 @@ def companies_list_view(request):
         {
             "name": "Company 1",
             "id": 1,
-            "birthday": "2017-04-19"
+            "nameOfFounder": "Marcos Cardoso",
+            "birthday": "2017-04-19",
         },
         {
             "name": "Company 2",
             "id": 2,
-            "birthday": "2017-04-20"
+            "nameOfFounder": "Samuel Medeiros",
+            "birthday": "2017-04-24",
         }
     ], safe=False)
