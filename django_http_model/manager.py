@@ -1,9 +1,7 @@
-import json
 import time
 
-import requests
-
 from django_http_model.models import fields
+from django_http_model.utils import RequestUtils
 
 
 class HTTPModelManager:
@@ -17,13 +15,17 @@ class HTTPModelManager:
         self.meta = model.HTTPMeta
 
     def all(self):
-        response = requests.get(self.meta.url)
         result = []
-        if response.ok:
-            for instance_attributes_dict in json.loads(response.text):
+        response = RequestUtils.fetch_from_url(self.meta.url)
+        if response is not None:
+            for instance_attributes_dict in response:
                 instance = self.__create_instance(instance_attributes_dict)
                 result.append(instance)
         return result
+
+    def get(self, pk):
+        response = RequestUtils.fetch_from_url(self.meta.url, pk)
+        return None if response is None else self.__create_instance(response)
 
     def __create_instance(self, instance_attributes_dict):
         instance = self.model()

@@ -1,10 +1,10 @@
+import json
 import time
 from unittest import TestCase
-import json
-
-from test_app.models import Company
 
 import requests_mock
+
+from test_app.models import Company
 
 
 class HTTPModelManagerTest(TestCase):
@@ -65,3 +65,27 @@ class HTTPModelManagerTest(TestCase):
             self.assertIsInstance(companies, list)
             self.assertEqual(len(companies_list), 2)
             self.assertEqual(companies[0].founder, expected_result[0].founder)
+
+    def test_should_return_company_with_id_1(self):
+        company_dict = {
+            "name": "Company 1",
+            "id": 1,
+            "nameOfFounder": "Marcos Cardoso",
+            "birthday": "2017-04-19",
+        }
+
+        with requests_mock.mock() as m:
+            m.get("http://my.api.com/companies/1", text=json.dumps(company_dict))
+
+            company = Company.objects.get(pk=1)
+
+            expected_result = Company(
+                name="Company 1",
+                company_id=1,
+                founder="Marcos Cardoso",
+                birthday=time.strptime("2017-04-19", "%Y-%m-%d")
+            )
+
+            self.assertIsInstance(company, Company)
+            self.assertEqual(company.company_id, expected_result.company_id)
+            self.assertEqual(company.founder, expected_result.founder)

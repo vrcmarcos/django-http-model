@@ -15,9 +15,5 @@ class Company(HTTPModel):
         self.founder = founder
         self.birthday = birthday
 
-    def __eq__(self, o: object) -> bool:
-        return self.name == o.name and self.company_id == o.company_id \
-               and self.founder == o.founder and self.birthday == o.birthday
-
     class HTTPMeta(HTTPModel.HTTPMeta):
         url = "http://my.api.com/companies"

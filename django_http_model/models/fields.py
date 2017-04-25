@@ -12,5 +12,3 @@ class HTTPDateField(HTTPField):
     def __init__(self, field_name=None, date_fmt="%Y-%m-%d") -> None:
         super().__init__(field_name)
         self.date_fmt = date_fmt
-
-

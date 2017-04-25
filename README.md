@@ -31,4 +31,4 @@ Now you can call `MyModel.objects.all()` and get a list of `MyModel` instances
 
 #### dev:
 - **HTTPModel**, **HTTPField** and **HTTPManager** implemented
-- **HTTPManager**: **all** method implemented
+- **HTTPManager**: **all** and **get** method implemented
