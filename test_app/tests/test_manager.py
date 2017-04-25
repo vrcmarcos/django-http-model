@@ -17,8 +17,8 @@ class HTTPModelManagerTest(TestCase):
             "birthday": "2017-04-19",
         }
 
-        manager = Company.objects()
-        instance = manager._HTTPModelManager__create_instance(company_dict)
+        # manager =
+        instance = Company.objects._HTTPModelManager__create_instance(company_dict)
 
         self.assertIsInstance(instance, Company)
         self.assertEqual(instance.name, "Company 1")
@@ -45,7 +45,7 @@ class HTTPModelManagerTest(TestCase):
         with requests_mock.mock() as m:
             m.get("http://my.api.com/companies", text=json.dumps(companies_list))
 
-            companies = Company.objects().all()
+            companies = Company.objects.all()
 
             expected_result = [
                 Company(
