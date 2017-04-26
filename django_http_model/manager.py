@@ -16,7 +16,7 @@ class HTTPModelManager:
 
     def all(self):
         result = []
-        response = RequestUtils.fetch_from_url(self.meta.url)
+        response = RequestUtils.get(self.meta.url)
         if response is not None:
             for instance_attributes_dict in response:
                 instance = self.__create_instance(instance_attributes_dict)
@@ -24,8 +24,11 @@ class HTTPModelManager:
         return result
 
     def get(self, pk):
-        response = RequestUtils.fetch_from_url(self.meta.url, pk)
+        response = RequestUtils.get(self.meta.url, pk)
         return None if response is None else self.__create_instance(response)
+
+    def delete(self, pk):
+        return RequestUtils.delete(self.meta.url, pk)
 
     def __create_instance(self, instance_attributes_dict):
         instance = self.model()

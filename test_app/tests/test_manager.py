@@ -88,3 +88,9 @@ class HTTPModelManagerTest(TestCase):
             self.assertIsInstance(company, Company)
             self.assertEqual(company.company_id, expected_result.company_id)
             self.assertEqual(company.founder, expected_result.founder)
+
+    def test_should_delete_company_with_id_1(self):
+        with requests_mock.mock() as m:
+            m.delete("http://my.api.com/companies/1", text=json.dumps({"success": True}))
+            deleted = Company.objects.delete(pk=1)
+            self.assertTrue(deleted)

@@ -20,7 +20,7 @@ class RequestUtilsTest(TestCase):
 
         with requests_mock.mock() as m:
             m.get(url, text=json.dumps(company_dict))
-            response = RequestUtils.fetch_from_url(url)
+            response = RequestUtils.get(url)
             self.assertDictEqual(company_dict, response)
 
     def test_should_return_none_when_response_is_none(self):
@@ -28,5 +28,5 @@ class RequestUtilsTest(TestCase):
 
         with requests_mock.mock() as m:
             m.get(url, text="")
-            response = RequestUtils.fetch_from_url(url)
+            response = RequestUtils.get(url)
             self.assertIsNone(response)

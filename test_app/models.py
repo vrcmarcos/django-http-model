@@ -17,3 +17,4 @@ class Company(HTTPModel):
 
     class HTTPMeta(HTTPModel.HTTPMeta):
         url = "http://my.api.com/companies"
+        pk_field = "company_id"

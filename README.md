@@ -50,20 +50,29 @@ Now you can call the manager methods from `Company` model: `Company.objects.all(
 
 ## Implemented methods
 
-- `all/0` (class method)
-- `get/1` (class method, params=`{pk: int}`)
+### HTTPModel
+
+- `delete/0`
+
+### HTTPManager
+- `all/0`
+- `get/1`
+	- `pk: int`
+- `delete/1`
+	- `pk: int`
 
 ## To do
 
 - Relations between `HTTPModel`
 - Relations between `HTTPModel` and `django.db.models.Model`
 - More manager's methods:
-	- `save/0` (instance method)
-	- `delete/0` (instance method) and `delete/1` (class method, params=`{pks: list}`)
-	- `filter/1` (class method, params=`{pks: list}`) [?]
+	- `save/0`
+	- `filter/1` [?]
+		- `pks: list`
 
 ## Changelog
 
 #### dev:
 - **HTTPModel**, **HTTPManager**, **HTTPField** and **HTTPDateField** implemented
-- **HTTPManager**: **all** and **get** method implemented
+- **HTTPManager**: `all/0`, `get/1` and `delete/1` method implemented
+- **HTTPModel**: `delete/0` method implemented

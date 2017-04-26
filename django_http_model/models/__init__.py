@@ -9,10 +9,17 @@ class HTTPModel(metaclass=ABCMeta):
     __manager = None
 
     @ClassProperty
-    def objects(cls):
-        if cls.__manager is None:
-            cls.__manager = HTTPModelManager(cls)
-        return cls.__manager
+    def objects(self):
+        if self.__manager is None:
+            self.__manager = HTTPModelManager(self)
+        return self.__manager
 
     class HTTPMeta:
         url = None
+        pk_field = None
+
+    def delete(self):
+        return self.objects.delete(self.__get_pk())
+
+    def __get_pk(self):
+        return getattr(self, self.HTTPMeta.pk_field)

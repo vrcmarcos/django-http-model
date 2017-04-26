@@ -16,11 +16,21 @@ class ClassProperty(property):
 class RequestUtils(object):
 
     @staticmethod
-    def fetch_from_url(url, path_to_append=None):
-        if path_to_append is not None:
-            url = urllib.parse.urljoin("{0}/".format(url), str(path_to_append))
+    def get(url, pk=None):
+        if pk is not None:
+            url = RequestUtils.__mount_url(url, pk)
         response = requests.get(url)
         result = None
         if response.ok and response.text is not None and response.text != "":
             result = json.loads(response.text)
         return result
+
+    @staticmethod
+    def delete(url, pk):
+        url = RequestUtils.__mount_url(url, pk)
+        response = requests.delete(url)
+        return response.ok
+
+    @staticmethod
+    def __mount_url(url, pk):
+        return urllib.parse.urljoin("{0}/".format(url), str(pk))
